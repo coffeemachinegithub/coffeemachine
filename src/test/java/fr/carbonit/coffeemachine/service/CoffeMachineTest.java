@@ -14,7 +14,9 @@ import static org.mockito.Mockito.when;
 
 import fr.carbonit.coffeemachine.domain.DrinkCommand;
 import fr.carbonit.coffeemachine.domain.DrinkType;
+import fr.carbonit.coffeemachine.hardware.BeverageQuantityChecker;
 import fr.carbonit.coffeemachine.hardware.DrinkMaker;
+import fr.carbonit.coffeemachine.hardware.EmailNotifier;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CoffeMachineTest {
@@ -27,6 +29,12 @@ public class CoffeMachineTest {
 
     @Mock
     private Reporting reporting;
+
+    @Mock
+    private BeverageQuantityChecker beverageQuantityChecker;
+
+    @Mock
+    private EmailNotifier emailNotifier;
 
     @InjectMocks
     private CoffeMachine service;
@@ -86,6 +94,22 @@ public class CoffeMachineTest {
 
         // Assert
         verify(reporting).report(eq(command), eq(DrinkType.COFFEE.getPrice()));
+    }
+
+    @Test
+    public void coffeeMachine_should_send_a_drinkMakerProtocol_message_instruction_to_the_drinkMaker_and_notify_missing_drink_when_shortage() throws Exception {
+        // Arrange
+        DrinkCommand command = new DrinkCommand(DrinkType.COFFEE);
+
+        when(beverageQuantityChecker.isEmpty(DrinkType.COFFEE.name())).thenReturn(true);
+        when(drinkMakerProtocol.convertMessage(eq("Shortage of COFFEE"))).thenReturn("myConvertedMessage");
+
+        // Act
+        service.command(command, DrinkType.COFFEE.getPrice());
+
+        // Assert
+        verify(drinkMaker).make(eq("myConvertedMessage"));
+        verify(emailNotifier).notifyMissingDrink(DrinkType.COFFEE.name());
     }
 
 }
