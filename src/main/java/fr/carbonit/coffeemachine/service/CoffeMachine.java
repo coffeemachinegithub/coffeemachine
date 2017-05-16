@@ -11,10 +11,12 @@ public class CoffeMachine {
 
     private DrinkMakerProtocol drinkMakerProtocol;
     private DrinkMaker drinkMaker;
+    private Reporting reporting;
 
-    public CoffeMachine(DrinkMakerProtocol drinkMakerProtocol, DrinkMaker drinkMaker) {
+    public CoffeMachine(DrinkMakerProtocol drinkMakerProtocol, DrinkMaker drinkMaker, Reporting reporting) {
         this.drinkMakerProtocol = drinkMakerProtocol;
         this.drinkMaker = drinkMaker;
+        this.reporting = reporting;
     }
 
     public void command(DrinkCommand command, double money) {
@@ -25,6 +27,7 @@ public class CoffeMachine {
         } else {
             handleStick(command);
             drinkMaker.make(drinkMakerProtocol.convert(command));
+            reporting.report(command, money);
         }
     }
 

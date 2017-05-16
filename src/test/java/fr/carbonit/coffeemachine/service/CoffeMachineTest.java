@@ -25,6 +25,9 @@ public class CoffeMachineTest {
     @Mock
     private DrinkMaker drinkMaker;
 
+    @Mock
+    private Reporting reporting;
+
     @InjectMocks
     private CoffeMachine service;
 
@@ -71,6 +74,18 @@ public class CoffeMachineTest {
         DrinkCommand sendedCommand = captor.getValue();
         assertThat(sendedCommand.hasStick()).isTrue();
         verify(drinkMaker).make(eq("myConvertedInstruction"));
+    }
+
+    @Test
+    public void coffeeMachine_should_report_command_when_command_sended_to_the_drinkMaker() throws Exception {
+        // Arrange
+        DrinkCommand command = new DrinkCommand(DrinkType.COFFEE);
+
+        // Act
+        service.command(command, DrinkType.COFFEE.getPrice());
+
+        // Assert
+        verify(reporting).report(eq(command), eq(DrinkType.COFFEE.getPrice()));
     }
 
 }
