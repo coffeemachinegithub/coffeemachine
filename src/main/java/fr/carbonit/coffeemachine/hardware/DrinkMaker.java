@@ -13,7 +13,14 @@ public interface DrinkMaker {
      * <code>"C:2:0" (Drink maker makes 1 coffee with 2 sugars and a stick)</code>
      * <br />
      * <code>"M:message-content" (Drink maker forwards any message received onto the
-     * coffee machine interface for the customer to see)</code>
+     * coffee machine interface for the customer to see)</code> <br />
+     * <code>"O::" (Drink maker will make one orange juice)</code><br />
+     * <code>"Ch::" (Drink maker will make an extra hot coffee with no sugar)</code><br
+     * />
+     * <code>"Hh:1:0" (Drink maker will make an extra hot chocolate with one sugar and
+     * a stick)</code><br />
+     * <code>"Th:2:0" (The drink maker will make an extra hot tea with two sugar and a
+     * stick)</code>
      * 
      * 
      * @param order

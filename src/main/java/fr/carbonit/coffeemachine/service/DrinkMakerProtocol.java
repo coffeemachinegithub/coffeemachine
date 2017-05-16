@@ -8,9 +8,14 @@ public class DrinkMakerProtocol {
     private static final String EMPTY_VALUE = "";
     private static final String STICK_VALUE = "0";
     private static final String INSTRUCTION_MESSAGE_CODE = "M";
+    private static final String EXTRA_HOT_VALUE = "h";
 
     public String convert(DrinkCommand command) {
-        return convertType(command) + PROTOCOL_SEPARATOR + convertSugarCount(command) + PROTOCOL_SEPARATOR + convertStick(command);
+        return convertType(command) + convertExtraHot(command) + PROTOCOL_SEPARATOR + convertSugarCount(command) + PROTOCOL_SEPARATOR + convertStick(command);
+    }
+
+    private String convertExtraHot(DrinkCommand command) {
+        return command.isExtraHot() ? EXTRA_HOT_VALUE : EMPTY_VALUE;
     }
 
     private String convertType(DrinkCommand command) {

@@ -3,6 +3,7 @@ package fr.carbonit.coffeemachine.domain;
 public class DrinkCommand {
 
     private DrinkType type;
+    private boolean extraHot;
     private int sugarCount;
     private boolean stick;
 
@@ -12,6 +13,15 @@ public class DrinkCommand {
 
     public DrinkType getType() {
         return type;
+    }
+
+    public boolean isExtraHot() {
+        return extraHot;
+    }
+
+    public DrinkCommand withExtraHot(boolean extraHot) {
+        this.extraHot = extraHot;
+        return this;
     }
 
     public int getSugarCount() {

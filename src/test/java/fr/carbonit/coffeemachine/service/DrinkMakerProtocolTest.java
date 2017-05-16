@@ -53,6 +53,18 @@ public class DrinkMakerProtocolTest {
     }
 
     @Test
+    public void convert_should_return_an_orange_juice_instruction_from_orange_juice_command() throws Exception {
+        // Arrange
+        DrinkCommand command = new DrinkCommand(DrinkType.ORANGE_JUICE);
+
+        // Act
+        String result = service.convert(command);
+
+        // Assert
+        assertThat(result).isEqualTo("O::");
+    }
+
+    @Test
     public void convert_should_return_an_one_sugar_instruction_from_one_sugar_command() throws Exception {
         // Arrange
         DrinkCommand command = new DrinkCommand(DrinkType.COFFEE).withSugar(1);
@@ -98,6 +110,18 @@ public class DrinkMakerProtocolTest {
 
         // Assert
         assertThat(result).isEqualTo("M:myMessage");
+    }
+
+    @Test
+    public void convert_should_return_an_extraHot_coffee_instruction_from_extraHot_coffee_command() throws Exception {
+        // Arrange
+        DrinkCommand command = new DrinkCommand(DrinkType.COFFEE).withExtraHot(true);
+
+        // Act
+        String result = service.convert(command);
+
+        // Assert
+        assertThat(result).isEqualTo("Ch::");
     }
 
 }
