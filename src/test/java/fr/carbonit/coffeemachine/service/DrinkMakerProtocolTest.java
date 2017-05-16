@@ -88,4 +88,16 @@ public class DrinkMakerProtocolTest {
         assertThat(result).isEqualTo("C::0");
     }
 
+    @Test
+    public void convertMessage_should_return_a_message_instruction() throws Exception {
+        // Arrange
+        String message = "myMessage";
+
+        // Act
+        String result = service.convertMessage(message);
+
+        // Assert
+        assertThat(result).isEqualTo("M:myMessage");
+    }
+
 }

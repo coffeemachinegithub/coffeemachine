@@ -7,6 +7,7 @@ public class DrinkMakerProtocol {
     private static final String PROTOCOL_SEPARATOR = ":";
     private static final String EMPTY_VALUE = "";
     private static final String STICK_VALUE = "0";
+    private static final String INSTRUCTION_MESSAGE_CODE = "M";
 
     public String convert(DrinkCommand command) {
         return convertType(command) + PROTOCOL_SEPARATOR + convertSugarCount(command) + PROTOCOL_SEPARATOR + convertStick(command);
@@ -22,6 +23,10 @@ public class DrinkMakerProtocol {
 
     private String convertStick(DrinkCommand command) {
         return command.hasStick() ? STICK_VALUE : EMPTY_VALUE;
+    }
+
+    public String convertMessage(String message) {
+        return INSTRUCTION_MESSAGE_CODE + PROTOCOL_SEPARATOR + message;
     }
 
 }

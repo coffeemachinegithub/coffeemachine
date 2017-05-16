@@ -29,17 +29,31 @@ public class CoffeMachineTest {
     private CoffeMachine service;
 
     @Test
-    public void drinkMaker_should_receive_drinkMakerProtocol_instruction_converted_from_command() throws Exception {
+    public void coffeeMachine_should_send_a_drinkMakerProtocol_command_instruction_to_the_drinkMaker_when_enough_money() throws Exception {
         // Arrange
         DrinkCommand command = new DrinkCommand(DrinkType.COFFEE);
 
         when(drinkMakerProtocol.convert(eq(command))).thenReturn("myConvertedInstruction");
 
         // Act
-        service.command(command);
+        service.command(command, DrinkType.COFFEE.getPrice());
 
         // Assert
         verify(drinkMaker).make(eq("myConvertedInstruction"));
+    }
+
+    @Test
+    public void coffeeMachine_should_send_a_drinkMakerProtocol_message_instruction_to_the_drinkMaker_when_not_enough_money() throws Exception {
+        // Arrange
+        DrinkCommand command = new DrinkCommand(DrinkType.COFFEE);
+
+        when(drinkMakerProtocol.convertMessage(eq("Not enough money. Missing: 0.1€"))).thenReturn("myConvertedMessage");
+
+        // Act
+        service.command(command, 0.5);
+
+        // Assert
+        verify(drinkMaker).make(eq("myConvertedMessage"));
     }
 
     @Test
@@ -51,7 +65,7 @@ public class CoffeMachineTest {
         when(drinkMakerProtocol.convert(captor.capture())).thenReturn("myConvertedInstruction");
 
         // Act
-        service.command(command);
+        service.command(command, DrinkType.COFFEE.getPrice());
 
         // Assert
         DrinkCommand sendedCommand = captor.getValue();
